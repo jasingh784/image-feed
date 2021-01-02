@@ -1,18 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AuthorRow from './components/AuthorRow';
+import Card from './components/Card';
 import Constants from 'expo-constants'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <AuthorRow 
+      <Card 
         fullname={'First Last'}
         linkText={'Comments'}
         onPressLinkText={() => {
           console.log('Pressed link!');
-        }}  
+        }}
+        image={{uri: 'https://unsplash.it/600/600'}}  
       />
     </View>
   );
