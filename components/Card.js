@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Image, StyleSheet, View} from 'react-native'
+import { ActivityIndicator, ACtivityIndicator, Image, StyleSheet, View} from 'react-native'
 import PropTypes from 'prop-types';
+
 
 import AuthorRow from './AuthorRow';
 
@@ -33,7 +34,13 @@ function Card(props) {
                 linkText={linkText}
                 onPressLinkText={onPressLinkText}
             />
-            <Image style={styles.image} source={image} onLoad={handleLoad}/>
+            <View style={styles.image} >
+                {loading && (
+                    <ActivityIndicator style={StyleSheet.absoluteFill} size={'large'} />
+                )}
+            
+                <Image style={StyleSheet.absoluteFill} source={image} onLoad={handleLoad}/>
+            </View>
         </View>
     )
 }
