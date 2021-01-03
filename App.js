@@ -1,11 +1,14 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Platform, View, Modal } from 'react-native';
 import Feed from './screens/Feed';
 import Constants from 'expo-constants'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Comments from './screens/Comments'
 import CommentInput from './components/CommentInput'
+
+const ASYNC_STORAGE_COMMENTS_KEY = 'ASYN_STORAGE_COMMENTS_KEY';
 
 export default function App() {
 
@@ -31,8 +34,37 @@ export default function App() {
       [selectedItemId]: [...comments, text],
     }
 
-    setCommentsForItem({commentsForItem: updated});
+    setCommentsForItem(updated);
+
+    try {
+      AsyncStorage.setItem(ASYNC_STORAGE_COMMENTS_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.log("Failed to save comment", text, 'for', selectedItemId);
+    }
   }
+
+  useEffect(() => {
+    //create a scoped async function in the hook
+    async function getCommentsFromStorage() {
+        try {
+            console.log('feteching comments from AsyncStorage')
+            const commentsFromStorage = await AsyncStorage.getItem(
+              ASYNC_STORAGE_COMMENTS_KEY,
+            );
+
+            setCommentsForItem( commentsFromStorage ? JSON.parse(commentsFromStorage) : {} )
+            
+        } catch (e) {
+            console.log("Failed to load comments:" + e);
+        }
+        
+    }
+
+    //execute the created function directly
+    getCommentsFromStorage();
+    
+}, [])
+
 
   return (
     <View style={styles.container}>
