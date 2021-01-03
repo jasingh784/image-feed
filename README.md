@@ -9,3 +9,6 @@ The key difference is that in the book the app is written using class components
 hooks. 
 
 App tested on android and ios. 
+
+published on expo. If you would like to run this app on your phone go to https://expo.io/@jasingh784/projects/image-feed
+you will need the expo client app installed on your phone.
